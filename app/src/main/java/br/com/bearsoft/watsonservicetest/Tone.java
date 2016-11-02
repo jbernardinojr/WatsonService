@@ -80,9 +80,7 @@ public class Tone implements Comparable<Tone>{
 
 
     @Override
-    public String toString() {
-        return this.getToneName() + "/" + this.getScore();
-    }
+    public String toString() { return String.format("%.2f", this.getScore()*100) +  this.getToneName();    }
 
     public int getIcone() {
         return icone;

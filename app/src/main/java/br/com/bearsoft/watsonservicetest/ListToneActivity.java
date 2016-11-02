@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -42,8 +43,6 @@ public class ListToneActivity extends AppCompatActivity{
         iconMap.put("joy", R.drawable.joy);
         iconMap.put("sadness", R.drawable.sadness);
 
-        TextView txtTone = (TextView) findViewById(R.id.textTone);
-
         Intent intent = getIntent();
         String tonesAsString = intent.getStringExtra("list_as_string");
         Gson gson = new Gson();
@@ -60,15 +59,13 @@ public class ListToneActivity extends AppCompatActivity{
         MyCustomAdapter customAdapter = new MyCustomAdapter(getApplicationContext(), R.layout.list_item_tone);
         String sName;
         String sToneId;
-        double sum = 0.0D;
+        DecimalFormat format = new DecimalFormat("#.##");
         for (int i=0; i<tones.size(); i++) {
             sName = tones.get(i).getToneName();
             sToneId = tones.get(i).getToneId();
-            mTone = new Tone(sName + " / " + tones.get(i).getScore(), sToneId, iconMap.get(sToneId));
+            mTone = new Tone(String.format("%.2f", tones.get(i).getScore()*100) + "% " + sName, sToneId, iconMap.get(sToneId));
             customAdapter.add(mTone);
-            sum += tones.get(i).getScore();
         }
-        Log.d("Teste", "Soma=" + sum);
 
         mToneAdapter.notifyDataSetChanged();
         lv = (ListView) findViewById(R.id.listViewTone);
